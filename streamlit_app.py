@@ -44,18 +44,30 @@ except URLError as e:
 
 #normalized_list=pandas.json_normalize(fruityvice_response.json())
 #streamlit.dataframe(normalized_list)
-streamlit.stop()
+#streamlit.stop()
 
-my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
-my_cur = my_cnx.cursor()
-my_cur.execute("select * from pc_rivery_db.public.fruit_load_list")
-my_data_row = my_cur.fetchone()
-my_data_rows = my_cur.fetchall()
-streamlit.text("Fruit List:")
-streamlit.dataframe(my_data_row)
-streamlit.dataframe(my_data_rows)
+#my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
+#my_cur = my_cnx.cursor()
+#my_cur.execute("select * from pc_rivery_db.public.fruit_load_list")
+#my_data_row = my_cur.fetchone()
+#my_data_rows = my_cur.fetchall()
+#streamlit.text("Fruit List:")
+#streamlit.dataframe(my_data_row)
+#streamlit.dataframe(my_data_rows)
+#
+#fruit_choice = streamlit.text_input('which fruit would you like to add?','Kiwi')
+#streamlit.write('Thanks for adding ', fruit_choice)
+#
+#my_cur.execute("insert into pc_rivery_db.public.fruit_load_list values ('from streamlit')")
 
-fruit_choice = streamlit.text_input('which fruit would you like to add?','Kiwi')
-streamlit.write('Thanks for adding ', fruit_choice)
+streamlit.header('The fruit load list contains:')
+def fruit_load_list():
+    with my_cnx.cursor() as my_cur:
+        my_cur.execute("select * from pc_rivery_db.public.fruit_load_list")
+        return my_cur.fetchall()
 
-my_cur.execute("insert into pc_rivery_db.public.fruit_load_list values ('from streamlit')")
+if streamlit.button('Get Fruit Load List'):
+    my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
+    my_data_rows = fruit_load_list()
+    streamlit.dataframe(my_data_rows)
+
