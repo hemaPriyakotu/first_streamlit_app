@@ -37,5 +37,5 @@ streamlit.dataframe(my_data_row)
 streamlit.dataframe(my_data_rows)
 
 fruit_choice = streamlit.text_input('which fruit would you like to add?','Kiwi')
-streamlit.write('The user entered ', fruit_choice)
-fruityvice_response = requests.get("Thanks for selecting "+fruit_choice)
+streamlit.write('Thanks for adding ', fruit_choice)
+
